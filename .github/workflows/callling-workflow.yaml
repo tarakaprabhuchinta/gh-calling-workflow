@@ -1,0 +1,18 @@
+name: Github calling workflow
+run-name: Calling workflow demo
+on:
+  workflow_dispatch:
+
+jobs:
+  calling-workflow-job:
+    uses: tarakaprabhuchinta/gh-called-workflow/.github/workflows/called-workflow.yaml@main
+    with:
+      greeting: "hello"
+    secrets:
+      token: "abcdef"
+
+  output-job:
+    runs-on: ubuntu-latest
+    needs: calling-workflow-job
+    steps:
+      - run: echo ${{ needs.calling-workflow-job.outputs.modified-greeting }} ${{ needs.calling-workflow-job.outputs.passed-secret }}
